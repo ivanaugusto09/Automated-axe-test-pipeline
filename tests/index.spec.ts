@@ -29,30 +29,31 @@ test.describe('index.html', () => {
 
     // This test case shows the most basic example: run a scan, fail the test if there are any failures.
     // This is the way to go if you have no known/pre-existing violations you need to temporarily baseline.
-    test('accessibility of h1 element', async ({ browserName, page }) => {
-        const accessibilityScanResults = await new AxeBuilder({ page })
-            // You can use any CSS selector in place of "h1" here
-            .include('h1')
-            // This withTags directive restricts Axe to only run tests that detect known violations of
-            // WCAG 2.1 A and AA rules (similar to what Accessibility Insights reports). If you omit
-            // this, Axe will additionally run several "best practice" rules, which are good ideas to
-            // check for periodically but may report false positives in certain edge cases.
-            .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
-            .analyze();
+    // test('accessibility of h1 element', async ({ browserName, page }) => {
+    //     const accessibilityScanResults = await new AxeBuilder({ page })
+    //         // You can use any CSS selector in place of "h1" here
+    //         .include('h1')
+    //         // This withTags directive restricts Axe to only run tests that detect known violations of
+    //         // WCAG 2.1 A and AA rules (similar to what Accessibility Insights reports). If you omit
+    //         // this, Axe will additionally run several "best practice" rules, which are good ideas to
+    //         // check for periodically but may report false positives in certain edge cases.
+    //         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+    //         .analyze();
 
-        await exportAxeAsSarifTestResult('index-h1-element.sarif', accessibilityScanResults, browserName);
+    //     await exportAxeAsSarifTestResult('index-h1-element.sarif', accessibilityScanResults, browserName);
 
-        expect(accessibilityScanResults.violations).toStrictEqual([]);
-    });
+    //     expect(accessibilityScanResults.violations).toStrictEqual([]);
+    // });
 
     // If you want to run a scan of a page but need to exclude an element with known issues (eg, a third-party
     // component you don't control fixing yourself), you can exclude it specifically and still scan the rest
     // of the page.
-    test('accessibility of page (excluding element with known issues)', async ({ browserName, page }) => {
+    test('accessibility of page', async ({ browserName, page }) => {
         const accessibilityScanResults = await new AxeBuilder({ page })
-            .exclude('#example-accessibility-violations')
+            
             .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
             .analyze();
+            
             
         await exportAxeAsSarifTestResult('index-except-examples.sarif', accessibilityScanResults, browserName);
 
